@@ -1,21 +1,20 @@
 package com.instabus.ui.main
 
+import android.app.Application
+import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.instabus.R
+import com.instabus.data.Station
 
 import com.instabus.dummy.DummyContent.DummyItem
+import com.instabus.utilities.FileHelper
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem].
- * TODO: Replace the implementation with code for your data type.
- */
-class MyStationsListRecyclerViewAdapter(
-        private val values: List<DummyItem>)
-    : RecyclerView.Adapter<MyStationsListRecyclerViewAdapter.ViewHolder>() {
+
+class MyStationsListRecyclerViewAdapter(private val stations: List<Station>): RecyclerView.Adapter<MyStationsListRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -24,12 +23,12 @@ class MyStationsListRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
-        holder.idView.text = position.toString()
-        holder.contentView.text = position.toString()
+        val station = stations[position]
+        holder.idView.text = station.id.toString()
+        holder.contentView.text = station.street_name
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = stations.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val idView: TextView = view.findViewById(R.id.item_number)
