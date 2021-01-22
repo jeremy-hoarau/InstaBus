@@ -1,16 +1,21 @@
 package com.instabus.data
 
-import android.content.Context
-import com.instabus.R
-import com.instabus.utilities.FileHelper
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
+import com.instabus.data.models.JsonStationsRequest
+import com.instabus.data.models.Station
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
-class StationRepository {
-    fun getStationData(context: Context): List<Station>{
-        val text = FileHelper.getTextFromResources(context, R.raw.stations)
-        val moshi = Moshi.Builder().build()
-        val adapter = moshi.adapter(JsonStationsRequest::class.java)
-        return adapter.fromJson(text)?.data?.nearstations?: emptyList()
+class StationRepository() {
+
+    suspend fun getStationsData(): Response<JsonStationsRequest>
+    {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://barcelonaapi.marcpous.com/")
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+        val service: StationsService = retrofit.create(StationsService::class.java)
+        val serviceData = service.getJsonStationData()
+        return serviceData
     }
 }

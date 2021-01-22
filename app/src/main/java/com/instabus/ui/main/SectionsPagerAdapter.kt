@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.instabus.R
-import com.instabus.data.Station
-import com.instabus.utilities.FileHelper
+import com.instabus.data.models.Station
 
 private val TAB_TITLES = arrayOf(
         R.string.tab_text_1,
@@ -17,17 +16,17 @@ private val TAB_TITLES = arrayOf(
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-class SectionsPagerAdapter(private val context: Context, fm: FragmentManager, stations: List<Station>)
+class SectionsPagerAdapter(private val context: Context, fm: FragmentManager)
     : FragmentPagerAdapter(fm) {
 
-    private val _stations = stations
-
+    private var stationsListFragment = StationsListFragment()
+    private var mapFragment = MapFragment()
 
     override fun getItem(position: Int): Fragment {
         return if(position == 0)
-            StationsListFragment(_stations)
+            stationsListFragment
         else
-            MapFragment();
+            mapFragment
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
@@ -38,4 +37,11 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager, st
         // Show 2 total pages.
         return 2
     }
+
+    fun setStationsData(stationsData: List<Station>)
+    {
+        stationsListFragment.stationsListAdapter.setStationsData(stationsData)
+        mapFragment.setStationsData(stationsData)
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.instabus.data
+package com.instabus.data.models
 
 import com.squareup.moshi.JsonClass
 

@@ -6,15 +6,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebSettings
+import androidx.lifecycle.ViewModelProvider
 
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.LocationSource
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.instabus.R
+import com.instabus.data.models.Station
 
 class MapFragment : Fragment() {
+
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -26,9 +31,9 @@ class MapFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(41.3851, 2.1734), 10f))    //Barcelona
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
     override fun onCreateView(
@@ -43,5 +48,10 @@ class MapFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+    }
+
+    fun setStationsData(stations: List<Station>)
+    {
+        //TODO create all the points on the map. and display them, need to call a specific function for that?
     }
 }

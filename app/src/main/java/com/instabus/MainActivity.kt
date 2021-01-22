@@ -1,28 +1,38 @@
 package com.instabus
 
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
-import com.instabus.data.StationRepository
+import com.instabus.data.MainViewModel
 import com.instabus.ui.main.SectionsPagerAdapter
-
 
 class MainActivity() : AppCompatActivity() {
 
-    private val dataRepo = StationRepository()
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //TODO replace the stations JSON file with the latest version of it with retrofit
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
 
-        val stationsData = dataRepo.getStationData(this)
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager, stationsData)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel.getStationsData()
+        viewModel.stations.observe(this, Observer { response ->
+            if(response.isSuccessful){
+                response.body()?.let { sectionsPagerAdapter.setStationsData(it.data.nearstations) }
+            }
+            else{
+                Toast.makeText(this, "Error: cannot get data from the server", Toast.LENGTH_LONG).show()
+            }
+        })
+
         val viewPager: ViewPager = findViewById(R.id.view_pager)
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = findViewById(R.id.tabs)

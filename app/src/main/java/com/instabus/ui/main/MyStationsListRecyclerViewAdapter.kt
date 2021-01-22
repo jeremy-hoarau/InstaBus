@@ -1,24 +1,23 @@
 package com.instabus.ui.main
 
-import android.app.Application
-import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.instabus.R
-import com.instabus.data.Station
-
-import com.instabus.dummy.DummyContent.DummyItem
-import com.instabus.utilities.FileHelper
+import com.instabus.data.models.Station
 
 
-class MyStationsListRecyclerViewAdapter(private val stations: List<Station>): RecyclerView.Adapter<MyStationsListRecyclerViewAdapter.ViewHolder>() {
+
+class MyStationsListRecyclerViewAdapter(): RecyclerView.Adapter<MyStationsListRecyclerViewAdapter.ViewHolder>() {
+
+    private var stations = emptyList<Station>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.fragment_station_list_content, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -37,5 +36,11 @@ class MyStationsListRecyclerViewAdapter(private val stations: List<Station>): Re
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"
         }
+    }
+
+    fun setStationsData(stationsData: List<Station>)
+    {
+        stations = stationsData
+        notifyDataSetChanged()
     }
 }
