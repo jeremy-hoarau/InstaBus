@@ -1,25 +1,25 @@
 package com.instabus.ui.main
 
+import android.content.Intent
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebSettings
-import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.LocationSource
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.instabus.R
+import com.instabus.StationActivity
 import com.instabus.data.models.Station
 
 class MapFragment : Fragment() {
 
+    private lateinit var map:GoogleMap
+    private lateinit var stationsList: List<Station>
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -31,9 +31,9 @@ class MapFragment : Fragment() {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(41.3851, 2.1734), 10f))    //Barcelona
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        map = googleMap
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(41.3851, 2.1734), 11f))    //Barcelona
+        map.setOnMarkerClickListener { marker -> onMarkerClick(marker.position.latitude, marker.position.longitude)}
     }
 
     override fun onCreateView(
@@ -52,6 +52,22 @@ class MapFragment : Fragment() {
 
     fun setStationsData(stations: List<Station>)
     {
-        //TODO create all the points on the map. and display them, need to call a specific function for that?
+        stationsList = stations
+        for (station:Station in stations)
+        {
+            map.addMarker(MarkerOptions().position(LatLng(station.lat, station.lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.station_icon)))
+        }
+    }
+
+    private fun onMarkerClick(lat:Double, lon:Double): Boolean
+    {
+        val intent = Intent(context, StationActivity::class.java)
+
+        val selectedStation: Station = stationsList.first { station -> station.lat == lat && station.lon == lon }
+        intent.putExtra("stationId", selectedStation.id)
+        intent.putExtra("stationName", selectedStation.street_name)
+
+        startActivity(intent)
+        return true
     }
 }

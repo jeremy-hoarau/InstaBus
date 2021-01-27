@@ -1,13 +1,15 @@
 package com.instabus.ui.main
 
-import androidx.recyclerview.widget.RecyclerView
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import com.instabus.R
+import com.instabus.StationActivity
 import com.instabus.data.models.Station
-
 
 
 class MyStationsListRecyclerViewAdapter(): RecyclerView.Adapter<MyStationsListRecyclerViewAdapter.ViewHolder>() {
@@ -33,6 +35,10 @@ class MyStationsListRecyclerViewAdapter(): RecyclerView.Adapter<MyStationsListRe
         val idView: TextView = view.findViewById(R.id.item_number)
         val contentView: TextView = view.findViewById(R.id.content)
 
+        init {
+            view.setOnClickListener{ onClick(view.context, idView.text.toString().toInt(), contentView.text.toString()) }
+        }
+
         override fun toString(): String {
             return super.toString() + " '" + contentView.text + "'"
         }
@@ -42,5 +48,14 @@ class MyStationsListRecyclerViewAdapter(): RecyclerView.Adapter<MyStationsListRe
     {
         stations = stationsData
         notifyDataSetChanged()
+    }
+
+    fun onClick(context: Context, id: Int, stationName: String)
+    {
+        val intent = Intent(context, StationActivity::class.java)
+        intent.putExtra("stationId", id)
+        intent.putExtra("stationName", stationName)
+
+        context.startActivity(intent)
     }
 }
