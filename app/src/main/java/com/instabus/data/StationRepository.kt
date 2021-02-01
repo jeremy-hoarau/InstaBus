@@ -1,7 +1,6 @@
 package com.instabus.data
 
 import com.instabus.data.models.JsonStationsRequest
-import com.instabus.data.models.Station
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory

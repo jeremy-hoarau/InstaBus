@@ -8,10 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.instabus.R
-import com.instabus.StationActivity
-import com.instabus.data.database.AppDatabase
 
 
 class StationsListFragment() : Fragment() {

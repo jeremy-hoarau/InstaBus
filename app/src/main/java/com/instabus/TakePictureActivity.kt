@@ -13,7 +13,6 @@ import com.instabus.data.database.AppDatabase
 import com.instabus.data.database.StationImageDAO
 import com.instabus.data.database.tables.StationImage
 import java.io.ByteArrayOutputStream
-import java.nio.ByteBuffer
 
 class TakePictureActivity : AppCompatActivity() {
 

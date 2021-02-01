@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".StationImageListFragment"
+    tools:context=".ui.station.StationImageListFragment"
     tools:listitem="@layout/fragment_station_image_list_content" />

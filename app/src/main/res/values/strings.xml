@@ -16,4 +16,5 @@
     <string name="take_a_picture_button">Take a Picture Button</string>
     <string name="ok">OK</string>
     <string name="picture_title">Picture Title</string>
+    <string name="imagetitle">ImageTitle</string>
 </resources>

@@ -25,18 +25,18 @@ class MyStationsListRecyclerViewAdapter(): RecyclerView.Adapter<MyStationsListRe
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val station = stations[position]
-        holder.idView.text = station.id.toString()
+        holder.stationId = station.id
         holder.contentView.text = station.street_name
     }
 
     override fun getItemCount(): Int = stations.size
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val idView: TextView = view.findViewById(R.id.item_number)
         val contentView: TextView = view.findViewById(R.id.content)
+        var stationId: Int = 0
 
         init {
-            view.setOnClickListener{ onClick(view.context, idView.text.toString().toInt(), contentView.text.toString()) }
+            view.setOnClickListener{ onClick(view.context, stationId, contentView.text.toString()) }
         }
 
         override fun toString(): String {

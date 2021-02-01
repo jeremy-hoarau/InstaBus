@@ -1,6 +1,5 @@
 package com.instabus.data
 
-import android.database.Observable
 import com.instabus.data.models.JsonStationsRequest
 import retrofit2.Response
 import retrofit2.http.GET
